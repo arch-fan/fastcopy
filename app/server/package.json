@@ -1,22 +1,17 @@
 {
   "name": "server",
-  "version": "1.0.50",
+  "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts",
-    "seed": "bun db/seed.ts",
-    "migrate": "bun db/migrate.ts"
+    "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "@elysiajs/cron": "^1.0.3",
     "@elysiajs/swagger": "^1.0.4",
-    "drizzle-orm": "^0.30.9",
-    "elysia": "latest"
+    "elysia": "latest",
+    "redis": "^4.6.13"
   },
   "devDependencies": {
-    "bun-types": "latest",
-    "dotenv": "^16.4.5",
-    "drizzle-kit": "^0.20.17"
+    "bun-types": "latest"
   },
-  "module": "src/index.js"
+  "module": "src/index.ts"
 }

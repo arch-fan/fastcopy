@@ -7,6 +7,8 @@ const app = new Elysia({ prefix: "/api" })
   .use(notes)
   .listen(3000);
 
+export type App = typeof app;
+
 console.log(
   `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`
 );
