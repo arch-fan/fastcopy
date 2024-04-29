@@ -3,5 +3,8 @@
   "private": true,
   "workspaces": [
     "app/*"
-  ]
+  ],
+  "scripts": {
+    "dev": "bun --filter '*' dev"
+  }
 }
