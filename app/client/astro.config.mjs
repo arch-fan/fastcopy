@@ -6,6 +6,7 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react()],
+  site: "https://c.arch-fan.com",
   vite: {
     server: {
       proxy: {
