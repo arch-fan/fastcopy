@@ -1,0 +1,47 @@
+---
+import Layout, { type Props as LayoutProps } from "./Layout.astro";
+import Aside, { type Props as AsideProps } from "@/components/Aside.astro";
+interface Props extends LayoutProps, AsideProps {}
+
+const { currentTab, ...props } = Astro.props;
+---
+
+<Layout {...props}>
+  <div class="p-2 h-screen w-screen">
+    <header class="border-b flex items-center text-3xl font-bold">
+      <a href="/">Fastcopy</a>
+    </header>
+    <Aside {currentTab} />
+    <main class="overflow-y-scroll p-2">
+      <slot />
+    </main>
+  </div>
+</Layout>
+
+<style>
+  div {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "aside main";
+
+    grid-template-rows: 3rem 1fr;
+    grid-template-columns: 128px 1fr;
+  }
+  header {
+    grid-area: header;
+  }
+
+  aside {
+    grid-area: aside;
+  }
+
+  main {
+    grid-area: main;
+  }
+
+  header,
+  aside {
+    border-color: #aaa;
+  }
+</style>

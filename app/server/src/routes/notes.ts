@@ -4,58 +4,44 @@ import { client } from "@/lib/redis";
 export default new Elysia({ prefix: "/notes" })
   .decorate("redis", client)
   .get(
-    "/:path",
-    async ({ params: { path }, redis, set }) => {
-      const note = await redis.get(path);
+    "/",
+    async ({ redis }) => {
+      const keys = await redis.keys("*");
 
-      if (!note) {
-        set.status = 404;
-        return {
-          message: "Note not found",
-        };
-      }
+      const notes = await Promise.all(
+        keys.map(async (key) => ({
+          path: key,
+          content: (await redis.get(key)) as string,
+        }))
+      );
 
-      return { note, ttl: await redis.ttl(path) };
+      return notes;
     },
     {
-      params: t.Object({
-        path: t.String(),
-      }),
       response: {
-        200: t.Object({
-          note: t.String(),
-          ttl: t.Number(),
-        }),
-        404: t.Object({
-          message: t.String(),
-        }),
+        200: t.Array(
+          t.Object(
+            {
+              path: t.String(),
+              content: t.String(),
+            },
+            { minProperties: 0 }
+          )
+        ),
       },
     }
   )
-  .post(
+  .delete(
     "/",
-    async ({ body, redis, set }) => {
-      const exists = (await redis.exists(body.path)) === 1 ? true : false;
-
-      if (!exists) {
-        set.status = "Created";
-        await redis.set(body.path, body.content);
-        await redis.expire(body.path, body.ttl);
-        return;
-      }
-
-      set.status = "Conflict";
-      return { message: "Note already exists" };
+    async ({ redis }) => {
+      await redis.flushAll();
+      return { message: "All notes deleted" };
     },
     {
-      body: t.Object({
-        path: t.String(),
-        content: t.String(),
-        ttl: t.Number({ minimum: 0, maximum: 1000 * 60 * 60 * 24 * 7 }),
-      }),
       response: {
-        201: t.Void(),
-        409: t.Object({ message: t.String() }),
+        200: t.Object({
+          message: t.String(),
+        }),
       },
     }
   );

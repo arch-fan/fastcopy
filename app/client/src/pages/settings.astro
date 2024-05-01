@@ -1,0 +1,14 @@
+---
+import Dashboard from "../layouts/Dashboard.astro";
+import DeleteAllNotes from "@/components/DeleteAllNotes";
+---
+
+<Dashboard currentTab="Settings" title="Dashboard">
+  <div class="flex flex-col gap-4">
+    <h1 class="text-4xl">Settings</h1>
+    <section>
+      <h2 class="text-2xl">Dangerous settings!</h2>
+      <DeleteAllNotes client:load />
+    </section>
+  </div>
+</Dashboard>

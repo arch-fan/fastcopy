@@ -1,8 +1,8 @@
 ---
-import Notes from "@/components/Notes";
+import NoteViewer from "@/components/NoteViewer";
 import Dashboard from "../layouts/Dashboard.astro";
 ---
 
 <Dashboard currentTab="Notes" title="Dashboard">
-  <Notes client:load />
+  <NoteViewer client:only="react" />
 </Dashboard>
