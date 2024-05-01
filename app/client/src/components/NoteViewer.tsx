@@ -22,8 +22,11 @@ const NoteViewer: React.FC<{ path: string }> = ({ path }) => {
 
   return (
     <div className="min-h-full flex flex-col">
-      {note && note.ttl && <p>TTL: {Math.ceil(note.ttl / 60)}min</p>}
-      <div className="text-xl font-sans w-full flex-1 relative bg-neutral-300 p-1 rounded">
+      <div className="flex gap-4">
+        {note && note.ttl && <p>TTL: {Math.ceil(note.ttl / 60)}min</p>}
+        <a href={`/api/note/raw/${path}`}>RAW</a>
+      </div>
+      <div className="text-xl font-sans w-full flex-1 relative bg-neutral-200 p-1 rounded">
         <pre>{note.content}</pre>
         <Copy
           className="absolute top-2 right-2 h-8 w-8 z-50"

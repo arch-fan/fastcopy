@@ -6,7 +6,7 @@ export default new Elysia({ prefix: "/note" })
   .get(
     "/:path",
     async ({ params: { path }, redis, set }) => {
-      const note = await redis.get(path);
+      const note = await redis.get(decodeURI(path));
 
       if (!note) {
         set.status = 404;
@@ -51,11 +51,37 @@ export default new Elysia({ prefix: "/note" })
       body: t.Object({
         path: t.String(),
         content: t.String(),
-        ttl: t.Number({ minimum: 0, maximum: 60 * 60 * 24 * 7 }),
+        ttl: t.Number({
+          minimum: 0,
+          maximum: 60 * 60 * 24 * 7,
+          default: 60 * 60 * 24,
+        }),
       }),
       response: {
         201: t.Void(),
         409: t.Object({ message: t.String() }),
+      },
+    }
+  )
+  .get(
+    "/raw/:path",
+    async ({ params: { path }, redis, set }) => {
+      const note = await redis.get(decodeURI(path));
+
+      if (!note) {
+        return;
+      }
+
+      set.headers["Content-Type"] = "text/plain; charset=utf-8";
+      return note;
+    },
+    {
+      params: t.Object({
+        path: t.String(),
+      }),
+      response: {
+        200: t.String(),
+        404: t.Void(),
       },
     }
   );
