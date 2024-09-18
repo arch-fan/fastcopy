@@ -8,7 +8,9 @@ const { currentTab, ...props } = Astro.props;
 
 <Layout {...props}>
   <div class="p-2 h-screen w-screen">
-    <header class="border-b flex items-center text-3xl font-bold">
+    <header
+      class="border-b border-neutral-600 flex items-center text-3xl font-bold"
+    >
       <a href="/">Fastcopy</a>
     </header>
     <Aside {currentTab} />
@@ -26,7 +28,7 @@ const { currentTab, ...props } = Astro.props;
       "aside main";
 
     grid-template-rows: 3rem 1fr;
-    grid-template-columns: 128px 1fr;
+    grid-template-columns: auto 1fr;
   }
   header {
     grid-area: header;

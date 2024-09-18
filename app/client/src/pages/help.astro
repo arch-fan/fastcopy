@@ -1,0 +1,19 @@
+---
+import Dashboard from "../layouts/Dashboard.astro";
+import { Code } from "astro-expressive-code/components";
+---
+
+<Dashboard currentTab="Help" title="Dashboard">
+  <h1 class="text-3xl">Utility commands</h1>
+  <p>Download a note with cURL</p>
+  <Code
+    code={`curl -O ${Astro.url.host}/api/note/raw/<note_name>`}
+    lang="bash"
+  />
+</Dashboard>
+
+<style is:global>
+  .expressive-code {
+    @apply my-4;
+  }
+</style>
