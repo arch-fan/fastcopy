@@ -1,7 +1,7 @@
 FROM oven/bun:latest AS build
 WORKDIR /temp/build
 
-FROM oven/bun:latest AS client-build
+FROM build AS client-build
 COPY app/client/package.json bun.lockb ./
 RUN bun install
 COPY . .
