@@ -1,18 +1,15 @@
-FROM oven/bun:latest as base
-
-WORKDIR /app
-
-FROM base AS build
+FROM oven/bun:latest AS build
 
 WORKDIR /temp/build
 COPY package.json bun.lockb ./
-RUN bun install --frozen-lockfile
+RUN bun install
 COPY . .
 RUN bun run build
 
-FROM base AS prod
-COPY --from=build /temp/build/app/client/dist /app/public
-COPY --from=build /temp/build/app/server/dist/index.js /app/
+FROM oven/bun:alpine AS prod
+WORKDIR /app
+COPY --from=build /temp/build/app/client/dist ./public
+COPY --from=build /temp/build/app/server/dist/index.js ./
 
 USER bun
 EXPOSE 3000/tcp
