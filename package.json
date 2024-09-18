@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "dev": "bun --filter '*' dev",
+    "start": "bun index.js",
     "build": "bun --filter '*' build",
     "deploy": "docker-compose up -d --build"
   }

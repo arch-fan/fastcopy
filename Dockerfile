@@ -5,9 +5,10 @@ WORKDIR /app
 FROM base AS build
 
 WORKDIR /temp/build
-
+COPY package.json bun.lockb ./
+RUN bun install --frozen-lockfile
 COPY . .
-RUN bun install --frozen-lockfile && bun run build
+RUN bun run build
 
 FROM base AS prod
 COPY --from=build /temp/build/app/client/dist /app/public
