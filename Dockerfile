@@ -7,7 +7,7 @@ RUN bun install
 COPY . .
 RUN bun run build
 
-FROM base AS server-build
+FROM build AS server-build
 COPY app/client/package.json bun.lockb ./
 RUN bun install
 COPY . .
